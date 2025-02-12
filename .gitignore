@@ -1,0 +1,36 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment
+venv/
+.env
+*.env
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore logs and temporary files
+logs/
+*.log
+*.tmp
+
+
+# Ignore model weights and outputs
+models/
+*.h5
+*.pkl
+*.joblib
+*.onnx
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore GitHub Large File Storage (LFS) pointers (if using LFS)
+*.lfs
