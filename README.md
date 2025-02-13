@@ -26,67 +26,77 @@ is_there_an_emotion_directed_at_a_brand_or_product: Whether the tweet expresses 
 
 Data File: judge_1377884607_tweet_product_company.csv (located in /data/ folder)
 
+# **Project Workflow:**
+
 ## 🔎 Data Preprocessing
 
-Cleaning: Removing special characters, URLs, mentions, and hashtags
+Text Cleaning: Lowercasing, punctuation removal, and stopword filtering.
 
-Tokenization: Splitting text into words
+Feature Engineering: Tokenization and TF-IDF vectorization.
 
-Stopword Removal: Eliminating common words (e.g., "the", "is")
+from sklearn.feature_extraction.text import TfidfVectorizer
 
-Stemming/Lemmatization: Reducing words to their root form
-
-Vectorization: Converting text into numerical format (TF-IDF, Word2Vec, or Transformer embeddings)
+vectorizer = TfidfVectorizer(stop_words='english', max_features=5000)
+X_tfidf = vectorizer.fit_transform(df['cleaned_tweet'])
 
 ## 🧠 Modeling Approach
 
-Baseline Models: Logistic Regression, Naive Bayes
+The following models were trained and evaluated:
 
-Advanced Models: LSTM, BERT (transformer-based model)
+Logistic Regression
+Support Vector Machine (SVM)
+XGBoost
 
-Evaluation Metrics: Accuracy, Precision, Recall, F1-score
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
 
-Validation Strategy: Train-test split, cross-validation
+X_train, X_test, y_train, y_test = train_test_split(X_tfidf, y, test_size=0.2, random_state=42)
 
-## 📌 Project Structure
+svm_model = SVC(kernel='linear', probability=True)
+svm_model.fit(X_train, y_train)
 
-📂 nlp-twitter-sentiment-analysis  
-│── 📂 data/                # Raw & processed datasets  
-│── 📂 notebooks/           # Jupyter Notebooks  
-│── 📂 src/                 # Python scripts for data processing & modeling  
-│── 📂 reports/             # Presentation slides & summary  
-│── README.md               # Project overview & instructions  
-│── requirements.txt        # Dependencies  
-│── .gitignore              # Ignore unnecessary files  
+## Model Evaluation
+
+Metrics Used: Accuracy, Precision, Recall, F1-score
+
+SHAP Analysis for feature importance and interpretability.
+
+from sklearn.metrics import classification_report
+
+y_pred = svm_model.predict(X_test)
+print(classification_report(y_test, y_pred))
+
+
+## Key Insights
+
+SVM outperformed all models with 98% accuracy, offering the best balance.
+
+Logistic Regression (96%) was valuable for interpretability.
+
+XGBoost (92%) had a slight trade-off in precision and recall.
+
+Misclassification occurred mainly between neutral and negative sentiment classes.
+
+## Conclusion & Future Work
+- Conclusion:
+
+SVM is the best model for Twitter sentiment classification.
+NLP techniques effectively distinguish consumer sentiment for Apple vs. Google.
+- Future Improvements:
+
+Real-time sentiment tracking for live tweets.
+Deep learning models (LSTMs, Transformers) for enhanced predictions.
+Fine-tuned handling of class imbalances.
 
 ## 🚀 How to Run the Project
 
-Clone the Repository:
+Install dependencies:
 
-git clone https://github.com/yourusername/nlp-twitter-sentiment-analysis.git
-cd nlp-twitter-sentiment-analysis
+pip install numpy pandas scikit-learn xgboost shap
 
-Install Dependencies:
-
-pip install -r requirements.txt
-
-Run Jupyter Notebook:
-
-jupyter notebook
-
-## 📌 Dependencies
-
-Python 3.x
-
-pandas, numpy, matplotlib, seaborn
-
-scikit-learn, nltk, spaCy
-
-transformers (for BERT-based models)
-
-## 📜 License
-
-MIT License
+pip install numpy pandas scikit-learn xgboost shap
+Open Jupyter Notebook and run index.ipynb.
+Follow the workflow to preprocess data, train models, and evaluate results.
 
 ## 📞 Contact
 
